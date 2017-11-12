@@ -1,7 +1,6 @@
 /* make the API call */
 
 function get_avatar(user_id){
-	console.log(user_id);
 	FB.api(
 	    "/"+ user_id + "/picture",
 	    function (response) {
@@ -16,5 +15,14 @@ function get_avatar(user_id){
 	      
 	    },
 	    { type: 'large'}
+	);
+}
+
+function get_feed(user_id){
+	FB.api(
+	    "/"+ user_id + "/feed",
+	    function (response) {
+	  
+	    }
 	);
 }

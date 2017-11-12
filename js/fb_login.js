@@ -13,6 +13,7 @@ function statusChangeCallback(response) {
 	  // Logged into your app and Facebook.
 	  testAPI();
 	  get_avatar(response.authResponse.userID);
+	  get_feed(response.authResponse.userID);
 
 	} else {
 	  // The person is not logged into your app or we are unable to tell.
