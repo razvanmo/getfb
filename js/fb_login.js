@@ -1,3 +1,6 @@
+// Documentation: https://developers.facebook.com/docs/facebook-login/web
+
+
 // This is called with the results from from FB.getLoginStatus().
 function statusChangeCallback(response) {
 	console.log('statusChangeCallback');
@@ -9,6 +12,8 @@ function statusChangeCallback(response) {
 	if (response.status === 'connected') {
 	  // Logged into your app and Facebook.
 	  testAPI();
+	  get_avatar(response.authResponse.userID);
+
 	} else {
 	  // The person is not logged into your app or we are unable to tell.
 	  document.getElementById('status').innerHTML = 'Please log ' +
@@ -70,5 +75,7 @@ function testAPI() {
 		document.getElementById('status').innerHTML =
 		'Thanks for logging in, ' + response.name + '!';
 	});
+
+
 }
 
