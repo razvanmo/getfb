@@ -4,35 +4,35 @@
 	<title>Get FB</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="js/fb_login.js"></script>
 	<script src="js/fb_avatar_and_activity.js"></script>
 </head>
 <body>
-
-	<div class="container-fluid">
-		<h1>Get my Facebook</h1>
-		<p>After login, show me my avatar and the last week activity.</p> 
-
+	<div id="main_container">
+		<div id="header">
+			<div id="title" class="float-left">
+				<h1>My Facebook</h1>
+				<p>After login, show me my avatar and the last week activity.</p> 
+			</div>	
+			<fb:login-button id="fb_login" class="float-right" autologoutlink="true" scope="public_profile,email" onlogin="checkLoginState();">
+			</fb:login-button>
+			<div style="clear:both;"></div>
+		</div>
 		<!--
 		  Below we include the Login Button social plugin. This button uses
 		  the JavaScript SDK to present a graphical Login button that triggers
 		  the FB.login() function when clicked.
 		-->
-
-		<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-		</fb:login-button>
-
-		<div id="status">
+		
+		<div id="user_content">
+			<div id="avatar_container" class="float-left">
+			</div>
+			<ul id="feed_container" class="float-right">
+			</ul>
+			<div style="clear:both;"></div>
 		</div>
-	</div>
-	<div id="user-content" class="container-fluid">
-		<div id="avatar">
-		</div>
-		<ul id="posts">
-		</ul>
 	</div>
 </body>
 </html>

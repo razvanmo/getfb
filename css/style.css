@@ -1,0 +1,41 @@
+html, 
+body {
+    height: 100%;
+}
+
+#main_container{
+	max-width: 700px;
+	margin:0 auto;
+    border: 2px solid #dfe3ee;
+    border-radius: 5px;
+    height: 100%;
+}
+
+#header{
+	padding: 10px;
+	background: #dfe3ee;
+}
+
+.float-left{
+	position: relative;
+	float:left;
+}
+
+.float-right{
+	position: relative;
+	float:right;
+}
+
+#fb_login{
+	padding: 50px;
+}
+
+#avatar_container{
+	padding: 10px;
+}
+
+#user_avatar{
+	border: 2px solid ;
+	border-radius: 2px;
+
+}
