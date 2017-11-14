@@ -17,7 +17,6 @@ body {
 }
 
 .float-left{
-	position: relative;
 	float:left;
 }
 
@@ -32,10 +31,32 @@ body {
 
 #avatar_container{
 	padding: 10px;
+	vertical-align: top;
 }
 
 #user_avatar{
 	border: 2px solid ;
 	border-radius: 2px;
+}
 
+#feed_container{
+	width: 100%;
+	padding: 20px;
+}
+
+#feed_list{
+	list-style: none;
+	padding: 0;
+}
+
+.post{
+	width: 100%;
+	border-top:1px solid #eee;
+	border-bottom:1px solid #eee;
+	padding:10px; 
+}
+
+.message{
+	float:left;
+	margin-left: 10px;
 }
