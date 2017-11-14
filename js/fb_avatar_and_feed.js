@@ -1,8 +1,10 @@
-/* make the API call */
 
+/** 
+ * Make the API call to get user avatar and inserts it in the page
+ */
 function get_avatar(user_id){
-	var user_avatar = document.getElementById("user_avatar");
-	if ( user_avatar != null ){
+	// check if not already set
+	if ( document.getElementById("user_avatar") != null ){
 		return;
 	}
 	FB.api(
@@ -23,8 +25,12 @@ function get_avatar(user_id){
 	);
 }
 
-function get_feed(user_id){
 
+/** 
+ * Make the API call to get user feed from last week and inserts it in the page
+ */
+function get_feed(user_id){
+	// check if not already set
 	if ( document.getElementById("feed_list") != null ){
 		return;
 	}
@@ -33,14 +39,18 @@ function get_feed(user_id){
 	    function (response) {
 	    	if (response && !response.error) {
 	    		if ( response.data.length > 0 ){
+
 	  				var feed_container = document.getElementById('feed_container');
 	  				var ul = document.createElement('ul');
 	  				ul.setAttribute('id', 'feed_list');
 	  				feed_container.appendChild(ul);
 	  				for ( var i in response.data ){
+
 	  					if ( less_than_a_week_ago( response.data[i].created_time ) ){
 							var li = document.createElement('li');
 							li.setAttribute('class', 'post');
+
+							// set post picture if exists
 							if (response.data[i].picture){
 								var img = document.createElement('img');
 								img.setAttribute('src', response.data[i].picture );
@@ -48,14 +58,18 @@ function get_feed(user_id){
 								li.appendChild( img );		
 							}
 
+							// set post text if exists
 							if ( response.data[i].message ){
 								var paragraph = document.createElement('p');
 								paragraph.innerHTML = response.data[i].message;
 								paragraph.setAttribute('class', 'message');
 								li.appendChild(paragraph);
 							}
+
+							// used for reseting the "float", so the next LI get aligned below 
 							var div = document.createElement('div');
 							div.setAttribute('style','clear:both;')
+
 							li.appendChild(div);
 							ul.appendChild(li);
 						}
@@ -66,9 +80,14 @@ function get_feed(user_id){
 	);
 }
 
+/**
+ * Return true if date is within the past 7 days
+ */
 function less_than_a_week_ago( created_date ){
 	var date = new Date(created_date);
 	var now = new Date();
 	var diff = Math.abs(now.getTime() - date.getTime());
+
+	// 1000 miliseconds * 60 seconds * 60 minutes * 24 hours = day
   	return diff / (1000 * 60 * 60 * 24) <= 7;
 }

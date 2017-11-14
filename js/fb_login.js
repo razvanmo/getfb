@@ -15,6 +15,7 @@ function statusChangeCallback(response) {
 
 	} else {
 	  // The person is not logged into your app or we are unable to tell.
+	  // clear everything upon logout
 	  document.getElementById('avatar_container').innerHTML = '';
 	  document.getElementById('feed_container').innerHTML = '';
 	}
