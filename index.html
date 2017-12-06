@@ -6,8 +6,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<script src="js/fb_login.js"></script>
-	<script src="js/fb_avatar_and_feed.js"></script>
 </head>
 <body>
 	<div id="main_container">
@@ -16,21 +14,39 @@
 				<h1>My Facebook</h1>
 				<p>After login, show me my avatar and the last week activity.</p> 
 			</div>	
-			<fb:login-button id="fb_login" class="float-right" autologoutlink="true" scope="public_profile,email" onlogin="checkLoginState();">
-			</fb:login-button>
+			<?php if ( $user_name == '' ) { ?>
+				<a id ='fb_login' class="float-right" href="https://www.facebook.com/v2.11/dialog/oauth?client_id=1709788505943326&redirect_uri=http://localhost/"> <button>Log in </button></a>
+			<?php } ?>
 			<div style="clear:both;"></div>
 		</div>
-		<!--
-		  Below we include the Login Button social plugin. This button uses
-		  the JavaScript SDK to present a graphical Login button that triggers
-		  the FB.login() function when clicked.
-		-->
-		
+		<?php if ( $user_name != '' ) { ?>
+			<div id='user_name'> <h4> Hello <?php echo $user_name; ?></h4> </div>
+		<?php } ?>
 		<div id="user_content">
 			<table>
+			<?php if ( $avatar_src != '' ) { ?>
 				<td id="avatar_container">
+					<img id="user_avatar" src=<?php echo $avatar_src; ?>>
 				</td>
+				<?php } ?>
 				<td id="feed_container">
+					<ul id="feed_list">
+					<?php 
+					 	foreach( $posts as $post ){ ?>
+					 		<li class="post">
+						 		<?php if ( isset( $post->picture ) ){ ?>
+						 			<img class="float-left" src=<?php echo $post->picture ?> >
+						 		<?php } ?>
+						 		<?php if ( isset ( $post->message ) ){ ?>
+						 			<p class="message" ><?php echo $post->message ?> </p>
+						 		<?php } ?>
+						 		
+						 		<div style="clear:both"></div>
+					 		</li>
+					 	<?php
+					 	}
+					?>
+					</ul>
 				</td>
 			</table>	
 		</div>
