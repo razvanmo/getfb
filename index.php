@@ -17,7 +17,11 @@ if ( ! isset( $_SESSION['access_token'] ) ){
 		populate_user_content();
 	}
 }else{
-	populate_user_content();
+	if ( isset( $_GET['logout'] ) && $_GET['logout'] == 'true' ){
+		remove_access_token();
+	}else{
+		populate_user_content();
+	}
 }
 
 
@@ -44,6 +48,11 @@ function set_access_token(){
 			$contents=json_decode($contents);
 		    $_SESSION['access_token'] = $contents->access_token;
 		}
+}
+
+// log out of facebook delete access token
+function remove_access_token(){
+	session_destroy();
 }
 
 // get user id and name based on token

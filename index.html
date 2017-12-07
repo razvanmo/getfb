@@ -15,7 +15,11 @@
 				<p>After login, show me my avatar and the last week activity.</p> 
 			</div>	
 			<?php if ( $user_name == '' ) { ?>
-				<a id ='fb_login' class="float-right" href="https://www.facebook.com/v2.11/dialog/oauth?client_id=1709788505943326&redirect_uri=http://localhost/"> <button>Log in </button></a>
+				<a id="fb_login" class="fb_button float-right" href="https://www.facebook.com/v2.11/dialog/oauth?client_id=1709788505943326&redirect_uri=http://localhost/"> <button>Log in </button></a>
+			<?php }else{ ?>
+				<a id="fb_logout" class="fb_button float-right" href="?logout=true">
+					<button>Log out</button>
+				</a>
 			<?php } ?>
 			<div style="clear:both;"></div>
 		</div>
