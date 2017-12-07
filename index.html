@@ -4,7 +4,8 @@
 	<title>Get FB</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="/public/style.css">
+	<script type="text/javascript" src="/public/interval.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body>
@@ -22,6 +23,15 @@
 				</a>
 			<?php } ?>
 			<div style="clear:both;"></div>
+			<?php if ( $user_name != '' ) { ?>
+			<div id="interval_container">
+				<form action=""> See activity from:
+					<input id="from_interval" type="date" name="from_interval" onchange="check_interval('from_interval')" max=<?php echo $max_interval; ?> value=<?php echo $from_interval; ?> > to:
+					<input id="to_interval" type="date" name="to_interval" onchange="check_interval('to_interval')" max=<?php echo $max_interval;?> value=<?php echo $to_interval; ?> >
+					<input type="submit" >
+				</form>
+			</div>
+			<?php } ?>
 		</div>
 		<?php if ( $user_name != '' ) { ?>
 			<div id='user_name'> <h4> Hello <?php echo $user_name; ?></h4> </div>
@@ -34,23 +44,27 @@
 				</td>
 				<?php } ?>
 				<td id="feed_container">
-					<ul id="feed_list">
-					<?php 
-					 	foreach( $posts as $post ){ ?>
-					 		<li class="post">
-						 		<?php if ( isset( $post->picture ) ){ ?>
-						 			<img class="float-left" src=<?php echo $post->picture ?> >
-						 		<?php } ?>
-						 		<?php if ( isset ( $post->message ) ){ ?>
-						 			<p class="message" ><?php echo $post->message ?> </p>
-						 		<?php } ?>
-						 		
-						 		<div style="clear:both"></div>
-					 		</li>
-					 	<?php
-					 	}
-					?>
-					</ul>
+					<?php if ( count( $posts ) > 0 ) { ?>
+						<ul id="feed_list">
+						<?php 
+						 	foreach( $posts as $post ){ ?>
+						 		<li class="post">
+							 		<?php if ( isset( $post->picture ) ){ ?>
+							 			<img class="float-left" src=<?php echo $post->picture ?> >
+							 		<?php } ?>
+							 		<?php if ( isset ( $post->message ) ){ ?>
+							 			<p class="message" ><?php echo $post->message ?> </p>
+							 		<?php } ?>
+							 		
+							 		<div style="clear:both"></div>
+						 		</li>
+						 	<?php
+						 	}
+						?>
+						</ul>
+					<?php }else{ ?>
+					No posts to show in the selected interval.
+					<?php } ?>
 				</td>
 			</table>	
 		</div>

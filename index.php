@@ -5,10 +5,8 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 //used in HTML
-global $user_name, $avatar_src, $posts;
+set_global_defaults();
 
-$user_name = '';
-$avatar_src = '';
 $posts = array();
 if ( ! isset( $_SESSION['access_token'] ) ){
 	// we have a response from FB
@@ -24,6 +22,26 @@ if ( ! isset( $_SESSION['access_token'] ) ){
 	}
 }
 
+
+
+// used in html
+function set_global_defaults(){
+	global $user_name, $avatar_src, $posts, $from_interval, $to_interval, $max_interval;
+
+	$user_name = '';
+	$avatar_src = '';
+
+	$from_interval = date( 'Y-m-d', time() - ( 60 * 60 * 24 * 7 ) );
+	if ( isset( $_GET['from_interval'] ) && $_GET['from_interval'] != '' ){
+		$from_interval = $_GET['from_interval'];
+	}
+
+	$max_interval = date( 'Y-m-d', time() );
+	$to_interval = $max_interval;
+	if ( isset( $_GET['to_interval'] ) && $_GET['to_interval'] != '' ){
+		$to_interval = $_GET['to_interval'];
+	}
+}
 
 function populate_user_content(){
 	$user = get_user();
@@ -91,7 +109,7 @@ function get_feed( $user_id ){
 		if ( isset( $contents->data ) ){
 			$posts = array();
 			foreach ( $contents->data as $key => $post ){
-				if ( less_than_a_week_ago( $post->created_time ) ) {
+				if ( is_within_interval( $post->created_time ) ) {
 					// only keep posts from last week
 					$posts[] = $post;
 				}
@@ -103,14 +121,29 @@ function get_feed( $user_id ){
 }
 
 // return true if date is less than a week from now
-function less_than_a_week_ago( $created_date ){
-	$date = strtotime($created_date);
-	$now = time();
-	$diff = abs($now - $date);
+function is_within_interval( $created_date ){
+	// default to interval from 7 days ago until present
 
-	// 60 seconds * 60 minutes * 24 hours = day
-	$days = $diff / (60 * 60 * 24);
-	if ( $days <= 7 ){
+	$to = time();
+	// end of current day
+	$to = strtotime("tomorrow", $to) - 1;
+	// begining of day from 7 days ago
+	$from = $to - ( 60 * 60 * 24 * 8 ) + 1 ;
+
+	if ( isset( $_GET['from_interval']) && $_GET['from_interval'] != '' ){
+		$from = strtotime( $_GET['from_interval'] );
+	}
+	if ( isset( $_GET['to_interval']) && $_GET['to_interval'] != '' ){
+		$to = strtotime( $_GET['to_interval'] ) ;
+		$to = strtotime("tomorrow", $to) - 1;
+	}
+	if ( $from > $to ){
+		$from = $to - ( 60 * 60 * 24 ) + 1;
+	}
+
+	$date = strtotime($created_date);
+
+	if ( $date >= $from && $date <= $to ){
 		return true;
 	}else{
 		return false;
